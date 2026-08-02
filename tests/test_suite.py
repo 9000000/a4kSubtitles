@@ -69,6 +69,22 @@ __tvshow_alt_title_video_meta = {
 }
 __tvshow_alt_title_expected_year = '2016'
 
+__tvshow_ambiguous_title_video_meta = {
+    "year": "2021",
+    "title": "Pilot",
+    "tvshow": "Ghosts",
+    "imdb_id": "",
+    "season": "1",
+    "episode": "1",
+    "filename": "Ghosts.2021.S01E01.Pilot.1080p.AMZN.WEB-DL.DDP5.1.H.264.mkv",
+    "filesize": "1073741824",
+    "filehash": "0000000000000000",
+}
+__tvshow_ambiguous_title_expected_episodes = [
+    ({}, 'tt15196062', '2021'),
+    ({'title': 'The Grey Lady', 'season': '2'}, 'tt10399582', '2019'),
+]
+
 __tvshow_with_show_imdb_id_alt_title_video_meta = __tvshow_alt_title_video_meta.copy()
 __tvshow_with_show_imdb_id_alt_title_video_meta['imdb_id'] = 'tt6150576'
 __tvshow_with_show_imdb_id_alt_title_expected_year = '2016'
@@ -163,6 +179,28 @@ def __search_tvshow_with_show_imdb_id_missing_year(a4ksubtitles_api, settings={}
     tvshow_video_meta = __tvshow_with_show_imdb_id_missing_year_meta.copy()
     tvshow_video_meta.update(video_meta)
     return __search(a4ksubtitles_api, settings, tvshow_video_meta)
+
+def __search_tvshow_ambiguous_title(a4ksubtitles_api, settings={}, video_meta={}):
+    tvshow_video_meta = __tvshow_ambiguous_title_video_meta.copy()
+    tvshow_video_meta.update(video_meta)
+    return __search(a4ksubtitles_api, settings, tvshow_video_meta)
+
+def test_tvshow_imdb_id_scraping_with_ambiguous_title():
+    a4ksubtitles_api = api.A4kSubtitlesApi({'kodi': True})
+
+    # 'Ghosts' matches both the UK (tt8594324) and the US (tt11379026) series,
+    # so the show airing the episode has to be picked.
+    for video_meta, expected_imdb_id, expected_tvshow_year in __tvshow_ambiguous_title_expected_episodes:
+        __remove_all_cache(a4ksubtitles_api)
+
+        get_meta_spy = utils.spy_fn(a4ksubtitles_api.core.video, 'get_meta', return_result=False)
+
+        try: __search_tvshow_ambiguous_title(a4ksubtitles_api, video_meta=video_meta)
+        except: pass
+
+        get_meta_spy.restore()
+        assert get_meta_spy.result[0].imdb_id == expected_imdb_id
+        assert get_meta_spy.result[0].tvshow_year == expected_tvshow_year
 
 def test_search_missing_imdb_id():
     a4ksubtitles_api = api.A4kSubtitlesApi({'kodi': True})

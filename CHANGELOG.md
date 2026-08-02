@@ -1,3 +1,6 @@
+* [v3.24.2](https://github.com/newt-sc/a4kSubtitles/releases/tag/service.subtitles.a4ksubtitles%2Fservice.subtitles.a4ksubtitles-3.24.2):
+  * Replace the two IMDb pages that are no longer reachable with API lookups, fixing TV show detection for titles shared by multiple shows.
+
 * [v3.24.1](https://github.com/newt-sc/a4kSubtitles/releases/tag/service.subtitles.a4ksubtitles%2Fservice.subtitles.a4ksubtitles-3.24.1):
   * Fix IMDb metadata lookups being rejected with 403, which broke TV show year and episode detection.
 

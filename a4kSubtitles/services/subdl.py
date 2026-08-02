@@ -25,8 +25,6 @@ def build_search_requests(core, service_name, meta):
             'episode': meta.episode,
         })
 
-        if meta.tvshow_year_thread:
-            meta.tvshow_year_thread.join()
         if meta.tvshow_year:
             params['year'] = meta.tvshow_year
     else:
