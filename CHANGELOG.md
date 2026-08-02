@@ -1,3 +1,6 @@
+* [v3.24.1](https://github.com/newt-sc/a4kSubtitles/releases/tag/service.subtitles.a4ksubtitles%2Fservice.subtitles.a4ksubtitles-3.24.1):
+  * Fix IMDb metadata lookups being rejected with 403, which broke TV show year and episode detection.
+
 * [v3.24.0](https://github.com/newt-sc/a4kSubtitles/releases/tag/service.subtitles.a4ksubtitles%2Fservice.subtitles.a4ksubtitles-3.24.0):
   * Fix subtitle post-processing never running, so encoding conversion is applied again.
   * SubDL: Switch to API v2 and fix downloads being saved still compressed.
